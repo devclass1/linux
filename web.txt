@@ -1,44 +1,44 @@
-#Create a Webserver in Default location
+ 1  yum install httpd
+    2  yum install vim
+    3  mkdir -p /srv/site1/www
+    4  echo "Default Site" > /var/www/html/index.html
+    5  systemctl start httpd
+    6  systemctl enable httpd
+    7  curl localhost
+    8  echo "Virtual site" > /srv/site1/www/index.html
+    9  semanage fcontext -a -t httpd_sys_content_t "/srv/site1(/.\*)?"
+   10  restorecon -Rv /srv/
+   11  cd /etc/httpd/conf.d/
+   12  ls -l
+   13  cd ..
+   14  cd conf
+   15  ls -l
+   16  cat httpd.conf 
+   17  cd ..
+   18  cd conf.d/
+   19  ls -l
+   20  cat welcome.conf 
+   21  vim site1.conf
+   22  cat welcome.conf 
+   23  httpd -t
+   24  systemctl restart httpd
+   25  curl localhost
 
-Web Server commands:
 
-yum install httpd
-echo "Welcome To My Default website" > /var/www/html/index.html
-systemctl start httpd
-systemctl enable httpd
+#################
 
-curl localhost
+File 
+#########
 
-++++++++++++++++
-Creating virtual host
-mkdir -p /srv/site1/html/
-echo "Welcome To virtual Website" > /srv/site1/html/index.html
-semanage fcontext -a -t httpd_sys_content_t "/srv/site1(/.\*)?"
-restorecon -Rv /srv/site1/
-
-vim /etc/httpd/conf/site1.conf
+   26  history
+[root@ip-172-31-25-25 conf.d]# cat /etc/httpd/conf.d/site1.conf 
 
 
 <VirtualHost *:80>
-    DocumentRoot "/srv/site1/html/"
+    DocumentRoot "/srv/site1/www/"
     ServerName example.com
 </VirtualHost>
-<Directory /srv/site1/html>
+<Directory /srv/site1/www>
 AllowOverride All
+Require all granted
 </Directory>
-
-Save and exit
-
-Systemctl restart httpd
-
-
-
-
-
-
-
-
-
-
-
-

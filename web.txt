@@ -1,0 +1,44 @@
+#Create a Webserver in Default location
+
+Web Server commands:
+
+yum install httpd
+echo "Welcome To My Default website" > /var/www/html/index.html
+systemctl start httpd
+systemctl enable httpd
+
+curl localhost
+
+++++++++++++++++
+Creating virtual host
+mkdir -p /srv/site1/html/
+echo "Welcome To virtual Website" > /srv/site1/html/index.html
+semanage fcontext -a -t httpd_sys_content_t "/srv/site1(/.\*)?"
+restorecon -Rv /srv/site1/
+
+vim /etc/httpd/conf/site1.conf
+
+
+<VirtualHost *:80>
+    DocumentRoot "/srv/site1/html/"
+    ServerName example.com
+</VirtualHost>
+<Directory /srv/site1/html>
+AllowOverride All
+</Directory>
+
+Save and exit
+
+Systemctl restart httpd
+
+
+
+
+
+
+
+
+
+
+
+
